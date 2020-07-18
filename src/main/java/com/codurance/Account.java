@@ -18,7 +18,7 @@ public class Account implements AccountService {
   @Override
   public void deposit(int amount) {
     String date = clock.getDate();
-    int balance = transactions.stream().mapToInt( t ->
+    int balance = transactions.stream().mapToInt(t ->
         t.amount
     ).sum();
 
@@ -32,11 +32,10 @@ public class Account implements AccountService {
 
   @Override
   public void printStatement() {
-    int balance = 0;
     console.print("Date       || Amount || Balance\n");
 
     transactions.descendingIterator()
-        .forEachRemaining(t -> print(t));
+        .forEachRemaining(this::print);
   }
 
   private void print(Transaction t) {
