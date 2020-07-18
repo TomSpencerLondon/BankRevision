@@ -33,8 +33,10 @@ public class Account implements AccountService {
   public void printStatement() {
     console.print("Date       || Amount || Balance\n");
 
-    transactions.forEach(t ->
-        console.print(t.date + " || " + t.amount + "   || " + balance + "\n")
-    );
+    transactions.forEach(this::print);
+  }
+
+  private void print(Transaction t) {
+    console.print(t.date + " || " + t.amount + "   || " + balance + "\n");
   }
 }
