@@ -33,10 +33,8 @@ public class Account implements AccountService {
   public void printStatement() {
     console.print("Date       || Amount || Balance\n");
 
-    if (!transactions.isEmpty()){
-      console.print(transactions.get(0).date
-          + " || "
-          + transactions.get(0).amount + "   || " + balance + "\n");
-    }
+    transactions.forEach(t ->
+        console.print(t.date + " || " + t.amount + "   || " + balance + "\n")
+    );
   }
 }
