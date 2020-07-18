@@ -26,12 +26,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class AcceptanceTest {
+
   @Mock
   Clock clock;
 
   @Mock
   Console console;
-  
+
   private AccountService account;
 
   @BeforeEach
@@ -58,6 +59,26 @@ public class AcceptanceTest {
     InOrder inOrder = inOrder(console);
 
     inOrder.verify(console).print("Date       || Amount || Balance\n");
+    inOrder.verify(console).print("10/01/2012 || 1000   || 1000\n");
+  }
+
+  @Test
+  void prints_withdrawals() {
+    given(clock.getDate())
+        .willReturn("10/01/2012")
+        .willReturn("13/01/2012")
+        .willReturn("14/01/2012");
+
+    account.deposit(1000);
+    account.deposit(2000);
+    account.withdraw(500);
+    account.printStatement();
+
+    InOrder inOrder = inOrder(console);
+
+    inOrder.verify(console).print("Date       || Amount || Balance\n");
+    inOrder.verify(console).print("14/01/2012 || -500   || 2500\n");
+    inOrder.verify(console).print("13/01/2012 || 2000   || 3000\n");
     inOrder.verify(console).print("10/01/2012 || 1000   || 1000\n");
   }
 }

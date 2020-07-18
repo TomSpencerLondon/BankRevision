@@ -1,15 +1,17 @@
 package com.codurance;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Account implements AccountService {
 
   private final Clock clock;
   private final Console console;
 
-  private List<Transaction> transactions = new ArrayList<>();
-
+  private final Deque<Transaction> transactions = new ArrayDeque<>();
   private int balance;
 
   public Account(Clock clock, Console console) {
@@ -21,21 +23,24 @@ public class Account implements AccountService {
   public void deposit(int amount) {
     String date = clock.getDate();
     balance += amount;
-    transactions.add(new Transaction(amount, date));
+    transactions.add(new Transaction(amount, date, balance));
   }
 
   @Override
   public void withdraw(int amount) {
-
+    deposit(-amount);
   }
 
   @Override
   public void printStatement() {
+    int balance = 0;
     console.print("Date       || Amount || Balance\n");
-    transactions.forEach(this::print);
+
+    transactions.descendingIterator()
+        .forEachRemaining(t -> print(t));
   }
 
   private void print(Transaction t) {
-    console.print(t.date + " || " + t.amount + "   || " + balance + "\n");
+    console.print(t.date + " || " + t.amount + "   || " + t.balance + "\n");
   }
 }
