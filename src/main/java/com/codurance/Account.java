@@ -32,7 +32,6 @@ public class Account implements AccountService {
   @Override
   public void printStatement() {
     console.print("Date       || Amount || Balance\n");
-
     transactions.forEach(this::print);
   }
 
