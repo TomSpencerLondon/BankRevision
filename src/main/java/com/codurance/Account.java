@@ -1,10 +1,7 @@
 package com.codurance;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Account implements AccountService {
 
