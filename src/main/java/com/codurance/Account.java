@@ -9,7 +9,6 @@ public class Account implements AccountService {
   private final Console console;
 
   private final Deque<Transaction> transactions = new ArrayDeque<>();
-  private int balance;
 
   public Account(Clock clock, Console console) {
     this.clock = clock;
@@ -19,8 +18,11 @@ public class Account implements AccountService {
   @Override
   public void deposit(int amount) {
     String date = clock.getDate();
-    balance += amount;
-    transactions.add(new Transaction(amount, date, balance));
+    int balance = transactions.stream().mapToInt( t ->
+        t.amount
+    ).sum();
+
+    transactions.add(new Transaction(amount, date, balance + amount));
   }
 
   @Override

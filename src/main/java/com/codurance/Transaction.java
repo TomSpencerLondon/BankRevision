@@ -11,4 +11,5 @@ public class Transaction {
     this.date = date;
     this.balance = balance;
   }
+
 }
