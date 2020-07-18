@@ -45,4 +45,17 @@ public class AcceptanceTest {
         .should(times(1))
         .print("Date       || Amount || Balance\n");
   }
+
+  @Test
+  void prints_one_transaction() {
+    given(clock.getDate()).willReturn("10/01/2012");
+
+    account.deposit(1000);
+    account.printStatement();
+
+    then(console)
+        .should().print(
+            "Date       || Amount || Balance\n" +
+                "10/01/2012 || 1000   || 1000\n");
+  }
 }

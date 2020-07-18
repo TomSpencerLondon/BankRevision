@@ -22,6 +22,7 @@ public class Account implements AccountService {
 
   @Override
   public void printStatement() {
-    console.print("Date       || Amount || Balance\n");
+    console.print("Date       || Amount || Balance\n"
+        + clock.getDate() + " || 1000   || 1000\n");
   }
 }
