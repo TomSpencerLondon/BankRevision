@@ -8,7 +8,9 @@ public class Account implements AccountService {
   private final Clock clock;
   private final Console console;
 
-  private List<Transaction> transactions = new ArrayList();
+  private List<Transaction> transactions = new ArrayList<>();
+
+  private int balance;
 
   public Account(Clock clock, Console console) {
     this.clock = clock;
@@ -18,7 +20,7 @@ public class Account implements AccountService {
   @Override
   public void deposit(int amount) {
     String date = clock.getDate();
-
+    balance += amount;
     transactions.add(new Transaction(amount, date));
   }
 
@@ -30,10 +32,11 @@ public class Account implements AccountService {
   @Override
   public void printStatement() {
     console.print("Date       || Amount || Balance\n");
+
     if (!transactions.isEmpty()){
       console.print(transactions.get(0).date
           + " || "
-          + transactions.get(0).amount + "   || 1000\n");
+          + transactions.get(0).amount + "   || " + balance + "\n");
     }
   }
 }
