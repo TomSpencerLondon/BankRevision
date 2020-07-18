@@ -2,11 +2,13 @@ package com.codurance;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,7 +40,7 @@ public class AcceptanceTest {
   }
 
   @Test
-  void prints_statement() {
+  void prints_empty_statement() {
     account.printStatement();
 
     then(console)
@@ -47,15 +49,15 @@ public class AcceptanceTest {
   }
 
   @Test
-  void prints_one_transaction() {
+  void prints_one_deposit() {
     given(clock.getDate()).willReturn("10/01/2012");
 
     account.deposit(1000);
     account.printStatement();
 
-    then(console)
-        .should().print(
-            "Date       || Amount || Balance\n" +
-                "10/01/2012 || 1000   || 1000\n");
+    InOrder inOrder = inOrder(console);
+
+    inOrder.verify(console).print("Date       || Amount || Balance\n");
+    inOrder.verify(console).print("10/01/2012 || 1000   || 1000\n");
   }
 }
